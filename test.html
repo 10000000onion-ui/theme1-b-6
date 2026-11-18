@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>引き継ぎメモ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>引き継ぎメモ</h1>
+
+    <div id="list" class="list"></div>
+
+    <section class="form">
+      <input id="title" placeholder="タイトル（例：新刊の発注手順）">
+      <input id="tag" placeholder="タグ（例：発注）">
+      <textarea id="body" placeholder="内容（例：毎週火曜の午前までにシステムから入力する）"></textarea>
+      <div id="err" class="err"></div>
+      <div class="form-row">
+        <button id="add" class="btn-primary">メモを追加</button>
+        <input id="search" placeholder="タイトルや内容で検索">
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
