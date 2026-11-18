@@ -3,15 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>返却確認アプリ</title>
+  <title>引き継ぎメモ</title>
   <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
 </head>
 <body>
-  <h1>返却確認アプリ</h1>
-  <input id="title" placeholder="タイトル（例：発注の手順）">
-<textarea id="body" placeholder="内容"></textarea>
-<button id="add">追加</button>
-<ul id="list"></ul>
+  <main class="container">
+    <h1>引き継ぎメモ</h1>
+
+    <section class="form" style="margin-bottom: 20px;">
+      <input id="title" placeholder="タイトル（例：新刊の発注手順）">
+      <textarea id="body" placeholder="内容（例：毎週火曜の午前までにシステムから入力する）"></textarea>
+      <div id="err" class="err"></div>
+      <button id="add" class="btn-primary">メモを追加</button>
+    </section>
+
+    <div id="list" class="list"></div>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
