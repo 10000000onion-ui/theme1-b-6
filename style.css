@@ -1,0 +1,169 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: #f5f5f3;
+  color: #222;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 0 0 20px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.empty {
+  font-size: 14px;
+  color: #666;
+}
+
+/* メモ1件 */
+.memo-item {
+  background: #fff;
+  border: 1px solid #e2e2de;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.memo-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  color: inherit;
+}
+
+.memo-head:hover { background: #f5f5f3; }
+
+.arrow {
+  color: #777;
+  transition: transform 0.15s;
+}
+
+.memo-item.open .arrow { transform: rotate(90deg); }
+
+.memo-title { flex: 1; }
+
+.tag {
+  background: #e6f1fb;
+  color: #0c447c;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+/* 内容（開いたときだけ表示） */
+.memo-body {
+  display: none;
+  padding: 4px 16px 14px 40px;
+  border-top: 1px solid #e2e2de;
+}
+
+.memo-item.open .memo-body { display: block; }
+
+.memo-body p {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.memo-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #888;
+}
+
+/* 入力フォーム */
+.form {
+  background: #fff;
+  border: 1px solid #e2e2de;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid #c9c9c4;
+  border-radius: 8px;
+  background: #fff;
+}
+
+textarea { min-height: 80px; resize: vertical; }
+
+input:focus, textarea:focus {
+  outline: 2px solid #85b7eb;
+  border-color: #378add;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-primary {
+  white-space: nowrap;
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
+
+.btn-primary:hover { background: #444; }
+
+.btn-delete {
+  font-size: 12px;
+  padding: 2px 10px;
+  background: #fff;
+  border: 1px solid #c9c9c4;
+  border-radius: 8px;
+}
+
+.btn-delete:hover { background: #fcebeb; border-color: #e24b4a; }
+
+.err {
+  font-size: 13px;
+  color: #a32d2d;
+  min-height: 18px;
+}
