@@ -107,6 +107,7 @@ h1 {
   border: 1px solid #e2e2de;
   border-radius: 12px;
   padding: 16px 20px;
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -144,23 +145,24 @@ button {
   white-space: nowrap;
   padding: 8px 16px;
   font-size: 14px;
-  background: #222;
-  color: #fff;
+  background: #85b7eb;
+  color: #0c447c;
   border: none;
   border-radius: 8px;
 }
 
-.btn-primary:hover { background: #444; }
+.btn-primary:hover { background: #378add; }
 
 .btn-delete {
   font-size: 12px;
   padding: 2px 10px;
-  background: #fff;
-  border: 1px solid #c9c9c4;
+  background: #e24b4a;
+  color: #fff;
+  border: 1px solid #e24b4a;
   border-radius: 8px;
 }
 
-.btn-delete:hover { background: #fcebeb; border-color: #e24b4a; }
+.btn-delete:hover { background: #b91c1c; border-color: #b91c1c; }
 
 .err {
   font-size: 13px;
