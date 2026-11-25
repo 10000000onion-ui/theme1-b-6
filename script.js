@@ -31,15 +31,26 @@ if (memos.length === 0) {
 const openIds = new Set(); // 今開いているメモのID
 const $ = (id) => document.getElementById(id);
 
+// ---- いいね ----
+// 指定したメモのいいねを+1して保存し、新しい回数を返す
+function likeMemo(id) {
+  const memo = memos.find((x) => x.id === id);
+  if (!memo) return 0;
+  memo.likes = (memo.likes || 0) + 1; // 昔のメモは likes が無いので0扱い
+  saveMemos();
+  return memo.likes;
+}
+
 // ---- 表示 ----
 function render() {
   const q = $('search').value.trim().toLowerCase();
   const list = $('list');
   list.innerHTML = '';
 
-  const shown = memos.filter((m) =>
-    (m.title + m.body + m.tag).toLowerCase().includes(q)
-  );
+  const shown = memos
+    .filter((m) => (m.title + m.body + m.tag).toLowerCase().includes(q))
+    // いいねが多い順。同じ数なら元の並び順のまま（sortは安定ソート）
+    .sort((a, b) => (b.likes || 0) - (a.likes || 0));
 
   if (shown.length === 0) {
     const p = document.createElement('p');
@@ -75,6 +86,12 @@ function render() {
       head.appendChild(tag);
     }
 
+    // タイトル行にいいね数を表示（閉じていても見える）
+    const likeCount = document.createElement('span');
+    likeCount.className = 'like-count';
+    likeCount.textContent = '♥ ' + (m.likes || 0);
+    head.appendChild(likeCount);
+
     head.addEventListener('click', () => {
       if (openIds.has(m.id)) openIds.delete(m.id);
       else openIds.add(m.id);
@@ -105,8 +122,22 @@ function render() {
       render();
     });
 
+    // いいねボタン（何回でも押せる）
+    const like = document.createElement('button');
+    like.className = 'btn-like';
+    like.textContent = '♥ わかりやすい！';
+    like.addEventListener('click', () => {
+      const count = likeMemo(m.id); // 戻り値で新しい回数を受け取る
+      likeCount.textContent = '♥ ' + count;
+      render(); // 並び順を更新
+    });
+
+    const actions = document.createElement('div');
+    actions.appendChild(like);
+    actions.appendChild(del);
+
     meta.appendChild(date);
-    meta.appendChild(del);
+    meta.appendChild(actions);
     body.appendChild(p);
     body.appendChild(meta);
 
@@ -147,77 +178,3 @@ $('title').addEventListener('input', () => { $('err').textContent = ''; });
 $('search').addEventListener('input', render);
 
 render();
-
-// =============================
-// ---- お買い物リスト ----
-// =============================
-const ITEM_KEY = 'shoppingItems';
-const itemInput = $('item-input');
-const addButton = $('add-button');
-const itemList = $('item-list');
-
-function loadItems() {
-  try {
-    return JSON.parse(localStorage.getItem(ITEM_KEY) || '[]');
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveItems() {
-  try {
-    localStorage.setItem(ITEM_KEY, JSON.stringify(items));
-  } catch (e) {
-    // 保存できない環境でも画面は動かす
-  }
-}
-
-let items = loadItems();
-
-// 一覧を描き直す
-function renderItems() {
-  itemList.innerHTML = '';
-
-  items.forEach((it) => {
-    const li = document.createElement('li');
-    li.className = 'shop-item';
-
-    const name = document.createElement('span');
-    name.textContent = it.name; // textContent でXSS対策
-
-    const del = document.createElement('button');
-    del.className = 'btn-delete';
-    del.textContent = '削除';
-    del.addEventListener('click', () => {
-      items = items.filter((x) => x.id !== it.id);
-      saveItems();
-      renderItems();
-    });
-
-    li.appendChild(name);
-    li.appendChild(del);
-    itemList.appendChild(li);
-  });
-}
-
-// 登録処理
-function addItem() {
-  const name = itemInput.value.trim();
-  if (!name) return; // 空なら何もしない
-
-  items.push({ id: Date.now(), name });
-  saveItems();
-  renderItems();
-
-  itemInput.value = '';
-  itemInput.focus();
-}
-
-addButton.addEventListener('click', addItem);
-
-// Enterキーでも登録（日本語変換の確定Enterは除外）
-itemInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.isComposing) addItem();
-});
-
-renderItems();
