@@ -147,3 +147,77 @@ $('title').addEventListener('input', () => { $('err').textContent = ''; });
 $('search').addEventListener('input', render);
 
 render();
+
+// =============================
+// ---- お買い物リスト ----
+// =============================
+const ITEM_KEY = 'shoppingItems';
+const itemInput = $('item-input');
+const addButton = $('add-button');
+const itemList = $('item-list');
+
+function loadItems() {
+  try {
+    return JSON.parse(localStorage.getItem(ITEM_KEY) || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveItems() {
+  try {
+    localStorage.setItem(ITEM_KEY, JSON.stringify(items));
+  } catch (e) {
+    // 保存できない環境でも画面は動かす
+  }
+}
+
+let items = loadItems();
+
+// 一覧を描き直す
+function renderItems() {
+  itemList.innerHTML = '';
+
+  items.forEach((it) => {
+    const li = document.createElement('li');
+    li.className = 'shop-item';
+
+    const name = document.createElement('span');
+    name.textContent = it.name; // textContent でXSS対策
+
+    const del = document.createElement('button');
+    del.className = 'btn-delete';
+    del.textContent = '削除';
+    del.addEventListener('click', () => {
+      items = items.filter((x) => x.id !== it.id);
+      saveItems();
+      renderItems();
+    });
+
+    li.appendChild(name);
+    li.appendChild(del);
+    itemList.appendChild(li);
+  });
+}
+
+// 登録処理
+function addItem() {
+  const name = itemInput.value.trim();
+  if (!name) return; // 空なら何もしない
+
+  items.push({ id: Date.now(), name });
+  saveItems();
+  renderItems();
+
+  itemInput.value = '';
+  itemInput.focus();
+}
+
+addButton.addEventListener('click', addItem);
+
+// Enterキーでも登録（日本語変換の確定Enterは除外）
+itemInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.isComposing) addItem();
+});
+
+renderItems();
