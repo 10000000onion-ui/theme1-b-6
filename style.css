@@ -185,3 +185,20 @@ button {
   color: #a32d2d;
   min-height: 18px;
 }
+
+/* 長い文章・URLが枠からはみ出さないようにする */
+.memo-title {
+  min-width: 0;              /* flexの中でも縮めるようにする */
+  overflow-wrap: anywhere;   /* どこで折り返してもOKにする */
+}
+
+.memo-body p {
+  overflow-wrap: anywhere;
+}
+
+/* タグといいね数は折り返さず、つぶれないようにする */
+.tag,
+.like-count {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
