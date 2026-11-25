@@ -82,7 +82,10 @@ function render() {
     if (m.tag) {
       const tag = document.createElement('span');
       tag.className = 'tag';
-      tag.textContent = m.tag;
+      // 長いタグは最初の10文字だけ表示（絵文字も1文字として数える）
+      const chars = Array.from(m.tag);
+      tag.textContent = chars.length > 10 ? chars.slice(0, 10).join('') + '…' : m.tag;
+      tag.title = m.tag; // マウスを乗せると全文が出る
       head.appendChild(tag);
     }
 
